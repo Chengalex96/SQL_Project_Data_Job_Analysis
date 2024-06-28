@@ -1,0 +1,42 @@
+SELECT 
+    COUNT(job_id),
+    EXTRACT (MONTH FROM job_posted_date) AS MONTH
+FROM
+    job_postings_fact
+WHERE
+    job_title_short = 'Data Analyst'
+GROUP BY
+    MONTH
+ORDER BY COUNT(job_id)DESC;
+
+SELECT  
+    AVG(salary_year_avg),
+    AVG(salary_hour_avg)
+FROM    
+    job_postings_fact
+WHERE   
+    job_posted_date > '2023-06-01';
+
+-- Time Problem 2
+SELECT  
+    COUNT(job_posted_date),
+    EXTRACT (MONTH FROM job_posted_date) AS MONTH
+FROM    
+    job_postings_fact
+WHERE   
+    EXTRACT (YEAR FROM job_posted_date) = 2023
+GROUP BY MONTH
+ORDER BY MONTH
+
+-- Time Problem 2
+SELECT  
+    COUNT(job_health_insurance),
+    EXTRACT (MONTH FROM job_posted_date) AS MONTH
+FROM    
+    job_postings_fact
+WHERE   
+    EXTRACT (YEAR FROM job_posted_date) = 2023 AND
+    EXTRACT (MONTH FROM job_posted_date) >= 4 AND 
+    EXTRACT (MONTH FROM job_posted_date) <= 6
+GROUP BY MONTH
+ORDER BY MONTH

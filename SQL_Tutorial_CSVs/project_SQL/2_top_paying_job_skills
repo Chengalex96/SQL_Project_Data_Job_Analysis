@@ -1,0 +1,69 @@
+/*
+What skills are required for the top paying data analyst jobs?
+Which skills are the most important  / saught out after
+Add either CTEs or sub-queries
+*/
+
+WITH top_payings_jobs AS (
+
+    SELECT
+        job_id,
+        job_title,
+        salary_year_avg,
+        name AS company_name
+
+    FROM
+        job_postings_fact
+
+    -- To see the company names
+    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+    WHERE   
+        job_title_short = 'Data Analyst' AND
+        job_location = 'Anywhere' AND
+        salary_year_avg IS NOT NULL
+    ORDER BY salary_year_avg DESC
+    LIMIT 10
+)
+
+SELECT 
+    top_payings_jobs.*,
+    skills
+    FROM top_payings_jobs
+-- This inner join will only take the interesecting values that have an associated salary and skill
+INNER JOIN skills_job_dim ON top_payings_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY 
+    salary_year_avg DESC
+
+
+/*
+
+The dataset contains the following unique job titles for data analyst roles:
+
+Associate Director - Data Insights
+Data Analyst, Marketing
+Data Analyst (Hybrid/Remote)
+Principal Data Analyst (Remote)
+Director, Data Analyst - HYBRID
+Principal Data Analyst, AV Performance Analysis
+Principal Data Analyst
+ERM Data Analyst
+Let's proceed to analyze the skills required for these roles and extract insights. We'll focus on the frequency of each skill to identify the most in-demand skills across these job titles. ​​
+
+The analysis of skills required for the top data analyst roles in 2023 reveals the following insights:
+
+Most Common Skills:
+
+SQL: Mentioned in 8 job postings
+Python: Mentioned in 7 job postings
+Tableau: Mentioned in 6 job postings
+Moderately Common Skills:
+
+R: Mentioned in 4 job postings
+Snowflake, Pandas, Excel: Each mentioned in 3 job postings
+Azure, Confluence, Atlassian, Jira, Oracle, Power BI, GitLab, Go, NumPy, AWS, Bitbucket: Each mentioned in 2 job postings
+Less Common Skills:
+
+Jenkins, Crystal, SAP, Hadoop, Flow, PowerPoint, Jupyter, PySpark, Databricks, Git: Each mentioned in 1 job posting
+
+*/
