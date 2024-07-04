@@ -19,3 +19,5 @@ WHERE
     quarter1_job_postings.job_title_short = 'Data Analyst'
 ORDER BY    
     quarter1_job_postings.salary_year_avg DESC
+
+-- Comment
